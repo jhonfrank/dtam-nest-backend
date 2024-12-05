@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { UnitsModule } from './context/inventory/units/units.module';
+import { CurrenciesModule } from './context/inventory/currencies/currencies.module';
 
 @Module({
     imports: [
@@ -18,6 +19,7 @@ import { UnitsModule } from './context/inventory/units/units.module';
             synchronize: !!process.env.DB_SYNC,
         }),
         UnitsModule,
+        CurrenciesModule,
     ],
     controllers: [],
     providers: [],
