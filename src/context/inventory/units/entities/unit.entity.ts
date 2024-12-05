@@ -8,7 +8,7 @@ export class Unit {
     @Column({ type: 'varchar', length: 255 })
     name: string;
 
-    @Column({ type: 'varchar', length: 1023 })
+    @Column({ type: 'varchar', length: 2000 })
     description: string;
 
     @Column({ type: 'char', length: 2, unique: true })
@@ -20,13 +20,13 @@ export class Unit {
     @Column({ type: 'timestamptz' })
     createdAt: Date;
 
-    @Column({ type: 'uuid', nullable: true })
+    @Column({ type: 'uuid' })
     createdBy: string;
 
-    @Column({ type: 'timestamptz', nullable: true })
+    @Column({ type: 'timestamptz' })
     updatedAt: Date;
 
-    @Column({ type: 'uuid', nullable: true })
+    @Column({ type: 'uuid' })
     updatedBy: string;
 
     @VersionColumn()

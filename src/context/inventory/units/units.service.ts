@@ -20,6 +20,8 @@ export class UnitsService {
             ...createUnitDto,
             createdAt: new Date(),
             createdBy: NIL_UUID,
+            updatedAt: new Date(),
+            updatedBy: NIL_UUID,
         });
 
         return await this.unitRepository.save(unit);
@@ -46,13 +48,13 @@ export class UnitsService {
             updatedBy: NIL_UUID,
         });
 
-        return await this.unitRepository.save(unit); //await this.unitRepository.findOneBy({ id });
+        return await this.unitRepository.save(unit);
     }
 
     async remove(id: string): Promise<void> {
-        const unitById = await this.unitRepository.findOneBy({ id });
+        const unit = await this.unitRepository.findOneBy({ id });
 
-        if (!unitById) {
+        if (!unit) {
             throw new NotFoundException(`Unit with ID ${id} not found`);
         }
 
