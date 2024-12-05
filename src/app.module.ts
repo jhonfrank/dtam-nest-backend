@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UnitsModule } from './context/inventory/units/units.module';
 import { CurrenciesModule } from './context/inventory/currencies/currencies.module';
 import { CategoriesModule } from './context/inventory/categories/categories.module';
+import { BrandsModule } from './context/inventory/brands/brands.module';
 
 @Module({
     imports: [
@@ -22,6 +23,7 @@ import { CategoriesModule } from './context/inventory/categories/categories.modu
         UnitsModule,
         CurrenciesModule,
         CategoriesModule,
+        BrandsModule,
     ],
     controllers: [],
     providers: [],
