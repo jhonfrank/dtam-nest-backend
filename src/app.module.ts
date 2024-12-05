@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { UnitsModule } from './context/inventory/units/units.module';
+
 @Module({
     imports: [
         ConfigModule.forRoot(),
@@ -15,6 +17,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
             entities: [__dirname + '/**/*.entity{.ts,.js}'],
             synchronize: !!process.env.DB_SYNC,
         }),
+        UnitsModule,
     ],
     controllers: [],
     providers: [],
