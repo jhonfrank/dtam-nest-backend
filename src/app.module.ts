@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { UnitsModule } from './context/inventory/units/units.module';
 import { CurrenciesModule } from './context/inventory/currencies/currencies.module';
+import { CategoriesModule } from './context/inventory/categories/categories.module';
 
 @Module({
     imports: [
@@ -20,6 +21,7 @@ import { CurrenciesModule } from './context/inventory/currencies/currencies.modu
         }),
         UnitsModule,
         CurrenciesModule,
+        CategoriesModule,
     ],
     controllers: [],
     providers: [],
