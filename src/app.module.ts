@@ -6,6 +6,7 @@ import { UnitsModule } from './context/inventory/units/units.module';
 import { CurrenciesModule } from './context/inventory/currencies/currencies.module';
 import { CategoriesModule } from './context/inventory/categories/categories.module';
 import { BrandsModule } from './context/inventory/brands/brands.module';
+import { ProductsModule } from './context/inventory/products/products.module';
 
 @Module({
     imports: [
@@ -24,6 +25,7 @@ import { BrandsModule } from './context/inventory/brands/brands.module';
         CurrenciesModule,
         CategoriesModule,
         BrandsModule,
+        ProductsModule,
     ],
     controllers: [],
     providers: [],
