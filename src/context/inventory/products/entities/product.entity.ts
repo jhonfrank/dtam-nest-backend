@@ -4,11 +4,13 @@ import {
   Column,
   VersionColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 
 import { Unit } from '../../units/entities/unit.entity';
 import { Category } from '../../categories/entities/category.entity';
 import { Brand } from '../../brands/entities/brand.entity';
+import { Batch } from '../../batches/entities/batch.entity';
 
 @Entity()
 export class Product {
@@ -62,4 +64,7 @@ export class Product {
 
   @ManyToOne(() => Unit, (unit) => unit.products)
   unit: Unit;
+
+  @OneToMany(() => Batch, (batch) => batch.product)
+  batches: Batch[];
 }

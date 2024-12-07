@@ -7,6 +7,8 @@ import { CurrenciesModule } from './context/inventory/currencies/currencies.modu
 import { CategoriesModule } from './context/inventory/categories/categories.module';
 import { BrandsModule } from './context/inventory/brands/brands.module';
 import { ProductsModule } from './context/inventory/products/products.module';
+import { BatchesModule } from './context/inventory/batches/batches.module';
+import { BatchStatesModule } from './context/inventory/batch-states/batch-states.module';
 
 @Module({
     imports: [
@@ -26,6 +28,8 @@ import { ProductsModule } from './context/inventory/products/products.module';
         CategoriesModule,
         BrandsModule,
         ProductsModule,
+        BatchesModule,
+        BatchStatesModule,
     ],
     controllers: [],
     providers: [],
