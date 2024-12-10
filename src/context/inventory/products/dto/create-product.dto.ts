@@ -2,8 +2,8 @@ import {
   IsString,
   IsNotEmpty,
   IsBoolean,
-  Length,
   IsNumber,
+  IsUUID,
 } from 'class-validator';
 
 export class CreateProductDto {
@@ -19,12 +19,19 @@ export class CreateProductDto {
   @IsNotEmpty()
   quantity: number;
 
-  @IsString()
-  @Length(14)
-  @IsNotEmpty()
-  sku: string;
-
   @IsBoolean()
   @IsNotEmpty()
   isActive: boolean;
+
+  @IsUUID()
+  @IsNotEmpty()
+  categoryId: string;
+
+  @IsUUID()
+  @IsNotEmpty()
+  brandId: string;
+
+  @IsUUID()
+  @IsNotEmpty()
+  unitId: string;
 }

@@ -7,20 +7,28 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 
+import { CategoriesService } from '../categories/categories.service';
+
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private productRepository: Repository<Product>,
+    private categoriesService: CategoriesService,
   ) {}
 
   async create(createProductDto: CreateProductDto): Promise<Product> {
+    const now = new Date();
+    const sku = await this.generateSku(createProductDto.categoryId, now);
+    const skuCorrelative = Product.decodeSku(sku).skuCorrelative;
     const product = this.productRepository.create({
       id: uuidv4(),
       ...createProductDto,
-      createdAt: new Date(),
+      sku,
+      skuCorrelative,
+      createdAt: now,
       createdBy: NIL_UUID,
-      updatedAt: new Date(),
+      updatedAt: now,
       updatedBy: NIL_UUID,
     });
 
@@ -59,5 +67,44 @@ export class ProductsService {
     }
 
     await this.productRepository.delete(id);
+  }
+
+  async generateSku(categoryId: string, now: Date): Promise<string> {
+    let categoryCode;
+    const year = now.getFullYear();
+    let skuCorrelative;
+    const packagingCorrelative = 0;
+    const variantCorrelative = 0;
+
+    const lastProduct = await this.productRepository
+      .createQueryBuilder('p')
+      .where(
+        'p.category_id = :categoryId AND EXTRACT(YEAR FROM p.created_at) = :year',
+        { categoryId, year },
+      )
+      .orderBy('p.sku_correlative', 'DESC')
+      .limit(1)
+      .getOne();
+
+    if (!lastProduct) {
+      const category = await this.categoriesService.findOne(categoryId);
+      categoryCode = category.code;
+      skuCorrelative = 1;
+    } else {
+      const decodedSku = Product.decodeSku(lastProduct.sku);
+
+      categoryCode = decodedSku.categoryCode;
+      skuCorrelative = decodedSku.skuCorrelative + 1;
+    }
+
+    const newSku = Product.encodeSku(
+      categoryCode,
+      year,
+      skuCorrelative,
+      packagingCorrelative,
+      variantCorrelative,
+    );
+
+    return newSku;
   }
 }
