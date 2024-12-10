@@ -1,37 +1,27 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
-import { UnitsModule } from './context/inventory/units/units.module';
-import { CurrenciesModule } from './context/inventory/currencies/currencies.module';
-import { CategoriesModule } from './context/inventory/categories/categories.module';
-import { BrandsModule } from './context/inventory/brands/brands.module';
-import { ProductsModule } from './context/inventory/products/products.module';
-import { BatchesModule } from './context/inventory/batches/batches.module';
-import { BatchStatesModule } from './context/inventory/batch-states/batch-states.module';
+import { InventoryModule } from './context/inventory/inventory.module';
 
 @Module({
-    imports: [
-        ConfigModule.forRoot(),
-        TypeOrmModule.forRoot({
-            type: process.env.DB_TYPE as any,
-            host: process.env.DB_HOST,
-            port: parseInt(process.env.DB_PORT),
-            username: process.env.DB_USERNAME,
-            password: process.env.DB_PASSWORD,
-            database: process.env.DB_NAME,
-            entities: [__dirname + '/**/*.entity{.ts,.js}'],
-            synchronize: !!process.env.DB_SYNC,
-        }),
-        UnitsModule,
-        CurrenciesModule,
-        CategoriesModule,
-        BrandsModule,
-        ProductsModule,
-        BatchesModule,
-        BatchStatesModule,
-    ],
-    controllers: [],
-    providers: [],
+  imports: [
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRoot({
+      type: process.env.DB_TYPE as any,
+      host: process.env.DB_HOST,
+      port: parseInt(process.env.DB_PORT),
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      synchronize: !!process.env.DB_SYNC,
+      namingStrategy: new SnakeNamingStrategy(),
+    }),
+    InventoryModule,
+  ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
