@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { RouterModule } from '@nestjs/core';
 
-import { Context } from 'src/context/shared/enum/context.enum';
+import { ContextEnum } from 'src/context/shared/enums/context.enum';
 
 import { UnitsModule } from './units/units.module';
 import { CurrenciesModule } from './currencies/currencies.module';
@@ -22,31 +22,31 @@ import { BatchStatesModule } from './batch-states/batch-states.module';
     BatchStatesModule,
     RouterModule.register([
       {
-        path: Context.INVENTORY,
+        path: ContextEnum.INVENTORY,
         module: UnitsModule,
       },
       {
-        path: Context.INVENTORY,
+        path: ContextEnum.INVENTORY,
         module: CurrenciesModule,
       },
       {
-        path: Context.INVENTORY,
+        path: ContextEnum.INVENTORY,
         module: CategoriesModule,
       },
       {
-        path: Context.INVENTORY,
+        path: ContextEnum.INVENTORY,
         module: BrandsModule,
       },
       {
-        path: Context.INVENTORY,
+        path: ContextEnum.INVENTORY,
         module: ProductsModule,
       },
       {
-        path: Context.INVENTORY,
+        path: ContextEnum.INVENTORY,
         module: BatchesModule,
       },
       {
-        path: Context.INVENTORY,
+        path: ContextEnum.INVENTORY,
         module: BatchStatesModule,
       },
     ]),
