@@ -9,13 +9,11 @@ import {
   ParseUUIDPipe,
 } from '@nestjs/common';
 
-import { Context } from 'src/context/shared/context.enum';
-
 import { BatchStatesService } from './batch-states.service';
 import { CreateBatchStateDto } from './dto/create-batch-state.dto';
 import { UpdateBatchStateDto } from './dto/update-batch-state.dto';
 
-@Controller(Context.INVENTORY + '/batch-states')
+@Controller('batch-states')
 export class BatchStatesController {
   constructor(private readonly batchStatesService: BatchStatesService) {}
 

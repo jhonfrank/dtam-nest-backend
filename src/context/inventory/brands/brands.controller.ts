@@ -9,13 +9,11 @@ import {
   ParseUUIDPipe,
 } from '@nestjs/common';
 
-import { Context } from 'src/context/shared/context.enum';
-
 import { BrandsService } from './brands.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
 
-@Controller(Context.INVENTORY + '/brands')
+@Controller('brands')
 export class BrandsController {
   constructor(private readonly brandsService: BrandsService) {}
 
