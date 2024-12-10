@@ -2,14 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { v4 as uuidv4, NIL as NIL_UUID } from 'uuid';
-import { customAlphabet } from 'nanoid';
+import * as Chance from 'chance';
 
 import { CreateBatchDto } from './dto/create-batch.dto';
 import { UpdateBatchDto } from './dto/update-batch.dto';
 import { Batch } from './entities/batch.entity';
-
-const ALPHABET = '1234567890ABCDEFGHIJKLMNPQRSTUVWXYZ';
-const nanoid = customAlphabet(ALPHABET, 10);
 
 @Injectable()
 export class BatchesService {
@@ -19,14 +16,17 @@ export class BatchesService {
   ) {}
 
   async create(createBatchDto: CreateBatchDto): Promise<Batch> {
-    const code = nanoid();
+    const now = new Date();
+    const code = await this.generateCode(now);
+    const codeCorrelative = Batch.decodeCode(code).codeCorrelative;
     const batch = this.batchRepository.create({
       id: uuidv4(),
       ...createBatchDto,
-      code: code,
-      createdAt: new Date(),
+      code,
+      codeCorrelative,
+      createdAt: now,
       createdBy: NIL_UUID,
-      updatedAt: new Date(),
+      updatedAt: now,
       updatedBy: NIL_UUID,
     });
 
@@ -65,5 +65,39 @@ export class BatchesService {
     }
 
     await this.batchRepository.delete(id);
+  }
+
+  async generateCode(now: Date): Promise<string> {
+    const chance = new Chance();
+    const pool = 'ABCDEFGHIJKLMNPQRSTUVWXYZ';
+
+    const prefix = chance.string({ length: 1, pool: pool, casing: 'upper' });
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1;
+    let codeCorrelative;
+    const suffix = chance.string({ length: 3, pool: pool, casing: 'upper' });
+
+    const lastBatch = await this.batchRepository
+      .createQueryBuilder('b')
+      .where('EXTRACT(YEAR FROM b.created_at) = :year', { year })
+      .orderBy('b.code_correlative', 'DESC')
+      .limit(1)
+      .getOne();
+
+    if (!lastBatch) {
+      codeCorrelative = 1;
+    } else {
+      codeCorrelative = lastBatch.codeCorrelative + 1;
+    }
+
+    const newCode = Batch.encodeCode(
+      prefix,
+      year,
+      month,
+      codeCorrelative,
+      suffix,
+    );
+
+    return newCode;
   }
 }
