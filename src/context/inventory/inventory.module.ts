@@ -10,9 +10,20 @@ import { BrandsModule } from './brands/brands.module';
 import { ProductsModule } from './products/products.module';
 import { BatchesModule } from './batches/batches.module';
 import { BatchStatesModule } from './batch-states/batch-states.module';
+import { WarehousesModule } from './warehouses/warehouses.module';
 
 @Module({
   imports: [
+    RouterModule.register([
+      { path: ContextEnum.INVENTORY, module: UnitsModule },
+      { path: ContextEnum.INVENTORY, module: CurrenciesModule },
+      { path: ContextEnum.INVENTORY, module: CategoriesModule },
+      { path: ContextEnum.INVENTORY, module: BrandsModule },
+      { path: ContextEnum.INVENTORY, module: ProductsModule },
+      { path: ContextEnum.INVENTORY, module: BatchesModule },
+      { path: ContextEnum.INVENTORY, module: BatchStatesModule },
+      { path: ContextEnum.INVENTORY, module: WarehousesModule },
+    ]),
     UnitsModule,
     CurrenciesModule,
     CategoriesModule,
@@ -20,36 +31,7 @@ import { BatchStatesModule } from './batch-states/batch-states.module';
     ProductsModule,
     BatchesModule,
     BatchStatesModule,
-    RouterModule.register([
-      {
-        path: ContextEnum.INVENTORY,
-        module: UnitsModule,
-      },
-      {
-        path: ContextEnum.INVENTORY,
-        module: CurrenciesModule,
-      },
-      {
-        path: ContextEnum.INVENTORY,
-        module: CategoriesModule,
-      },
-      {
-        path: ContextEnum.INVENTORY,
-        module: BrandsModule,
-      },
-      {
-        path: ContextEnum.INVENTORY,
-        module: ProductsModule,
-      },
-      {
-        path: ContextEnum.INVENTORY,
-        module: BatchesModule,
-      },
-      {
-        path: ContextEnum.INVENTORY,
-        module: BatchStatesModule,
-      },
-    ]),
+    WarehousesModule,
   ],
   controllers: [],
   providers: [],
