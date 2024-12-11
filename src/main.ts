@@ -8,7 +8,12 @@ async function bootstrap() {
   const port = process.env.APP_PORT ?? 3000;
   const globalPrefix = 'api/v1';
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+    }),
+  );
   app.setGlobalPrefix(globalPrefix);
   await app.listen(port);
 

@@ -6,6 +6,9 @@ import {
   ManyToOne,
   OneToMany,
 } from 'typeorm';
+import Decimal from 'decimal.js';
+
+import { DecimalTransformer } from 'src/context/shared/transformers/decimal.transformer';
 
 import { Unit } from '../../units/entities/unit.entity';
 import { Category } from '../../categories/entities/category.entity';
@@ -24,11 +27,12 @@ export class Product {
   description: string;
 
   @Column({
-    type: 'numeric',
+    type: 'decimal',
     precision: 18,
     scale: 4,
+    transformer: new DecimalTransformer(),
   })
-  quantity: number;
+  quantity: Decimal;
 
   @Column({ type: 'char', length: 14, unique: true })
   sku: string;

@@ -5,6 +5,9 @@ import {
   VersionColumn,
   ManyToOne,
 } from 'typeorm';
+import Decimal from 'decimal.js';
+
+import { DecimalTransformer } from 'src/context/shared/transformers/decimal.transformer';
 
 import { Product } from '../../products/entities/product.entity';
 import { BatchState } from '../../batch-states/entities/batch-state.entity';
@@ -36,8 +39,13 @@ export class Batch {
   @Column({ type: 'int' })
   codeCorrelative: number;
 
-  @Column({ type: 'numeric', precision: 18, scale: 4 })
-  quantity: number;
+  @Column({
+    type: 'decimal',
+    precision: 18,
+    scale: 4,
+    transformer: new DecimalTransformer(),
+  })
+  quantity: Decimal;
 
   @Column({ type: 'varchar', length: 2000 })
   description: string;

@@ -29,6 +29,7 @@
     "chance": "^1.1.12",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "decimal.js": "^10.4.3",
     "pg": "^8.13.1",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
