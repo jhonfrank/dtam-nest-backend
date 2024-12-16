@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { RouterModule } from '@nestjs/core';
 
-import { ContextEnum } from 'src/context/shared/enums/context.enum';
+import { CONTEXT_ENUM } from 'src/context/shared/enums/context.enum';
 
 import { UnitsModule } from './units/units.module';
 import { CurrenciesModule } from './currencies/currencies.module';
@@ -12,26 +12,26 @@ import { BatchesModule } from './batches/batches.module';
 import { BatchStatesModule } from './batch-states/batch-states.module';
 import { WarehousesModule } from './warehouses/warehouses.module';
 
+const inventoryModuleList = [
+  UnitsModule,
+  CurrenciesModule,
+  CategoriesModule,
+  BrandsModule,
+  ProductsModule,
+  BatchesModule,
+  BatchStatesModule,
+  WarehousesModule,
+];
+
 @Module({
   imports: [
-    RouterModule.register([
-      { path: ContextEnum.INVENTORY, module: UnitsModule },
-      { path: ContextEnum.INVENTORY, module: CurrenciesModule },
-      { path: ContextEnum.INVENTORY, module: CategoriesModule },
-      { path: ContextEnum.INVENTORY, module: BrandsModule },
-      { path: ContextEnum.INVENTORY, module: ProductsModule },
-      { path: ContextEnum.INVENTORY, module: BatchesModule },
-      { path: ContextEnum.INVENTORY, module: BatchStatesModule },
-      { path: ContextEnum.INVENTORY, module: WarehousesModule },
-    ]),
-    UnitsModule,
-    CurrenciesModule,
-    CategoriesModule,
-    BrandsModule,
-    ProductsModule,
-    BatchesModule,
-    BatchStatesModule,
-    WarehousesModule,
+    ...inventoryModuleList,
+    RouterModule.register(
+      inventoryModuleList.map((module) => ({
+        path: CONTEXT_ENUM.INVENTORY,
+        module: module,
+      })),
+    ),
   ],
   controllers: [],
   providers: [],
