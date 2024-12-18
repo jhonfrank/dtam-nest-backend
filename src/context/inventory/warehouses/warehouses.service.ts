@@ -1,18 +1,19 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
 import { v4 as uuidv4, NIL as NIL_UUID } from 'uuid';
 
 import { CreateWarehouseDto } from './dto/create-warehouse.dto';
 import { UpdateWarehouseDto } from './dto/update-warehouse.dto';
 import { Warehouse } from './entities/warehouse.entity';
 
+import { UnitOfWorkService } from '../shared/unit-of-work/unit-of-work.service';
+
 @Injectable()
 export class WarehousesService {
-  constructor(
-    @InjectRepository(Warehouse)
-    private warehouseRepository: Repository<Warehouse>,
-  ) {}
+  constructor(private unitOfWork: UnitOfWorkService) {}
+
+  get warehouseRepository() {
+    return this.unitOfWork.getRepository(Warehouse);
+  }
 
   async create(createWarehouseDto: CreateWarehouseDto): Promise<Warehouse> {
     const warehouse = this.warehouseRepository.create({

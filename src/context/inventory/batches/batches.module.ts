@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { BatchesService } from './batches.service';
 import { BatchesController } from './batches.controller';
-import { Batch } from './entities/batch.entity';
+
+import { UnitOfWorkModule } from '../shared/unit-of-work/unit-of-work.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Batch])],
+  imports: [UnitOfWorkModule],
   controllers: [BatchesController],
   providers: [BatchesService],
 })

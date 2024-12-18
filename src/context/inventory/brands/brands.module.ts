@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { BrandsService } from './brands.service';
 import { BrandsController } from './brands.controller';
-import { Brand } from './entities/brand.entity';
+
+import { UnitOfWorkModule } from '../shared/unit-of-work/unit-of-work.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Brand])],
+  imports: [UnitOfWorkModule],
   controllers: [BrandsController],
   providers: [BrandsService],
 })

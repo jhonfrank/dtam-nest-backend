@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { WarehousesService } from './warehouses.service';
 import { WarehousesController } from './warehouses.controller';
-import { Warehouse } from './entities/warehouse.entity';
+
+import { UnitOfWorkModule } from '../shared/unit-of-work/unit-of-work.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Warehouse])],
+  imports: [UnitOfWorkModule],
   controllers: [WarehousesController],
   providers: [WarehousesService],
 })

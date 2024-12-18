@@ -1,38 +1,41 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
 import { v4 as uuidv4, NIL as NIL_UUID } from 'uuid';
 
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 
+import { UnitOfWorkService } from '../shared/unit-of-work/unit-of-work.service';
 import { CategoriesService } from '../categories/categories.service';
 
 @Injectable()
 export class ProductsService {
   constructor(
-    @InjectRepository(Product)
-    private productRepository: Repository<Product>,
+    private unitOfWork: UnitOfWorkService,
     private categoriesService: CategoriesService,
   ) {}
 
-  async create(createProductDto: CreateProductDto): Promise<Product> {
-    const now = new Date();
-    const sku = await this.generateSku(createProductDto.categoryId, now);
-    const skuCorrelative = Product.decodeSku(sku).skuCorrelative;
-    const product = this.productRepository.create({
-      id: uuidv4(),
-      ...createProductDto,
-      sku,
-      skuCorrelative,
-      createdAt: now,
-      createdBy: NIL_UUID,
-      updatedAt: now,
-      updatedBy: NIL_UUID,
-    });
+  get productRepository() {
+    return this.unitOfWork.getRepository(Product);
+  }
 
-    return await this.productRepository.save(product);
+  async create(createProductDto: CreateProductDto): Promise<Product> {
+    return await this.unitOfWork.transaction(async () => {
+      const now = new Date();
+      const sku = await this.generateSku(createProductDto.categoryId, now);
+      const skuCorrelative = Product.decodeSku(sku).skuCorrelative;
+      const product = this.productRepository.create({
+        id: uuidv4(),
+        ...createProductDto,
+        sku,
+        skuCorrelative,
+        createdAt: now,
+        createdBy: NIL_UUID,
+        updatedAt: now,
+        updatedBy: NIL_UUID,
+      });
+      return await this.productRepository.save(product);
+    });
   }
 
   async findAll(): Promise<Product[]> {

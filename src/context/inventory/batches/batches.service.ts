@@ -1,6 +1,4 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
 import { v4 as uuidv4, NIL as NIL_UUID } from 'uuid';
 import * as Chance from 'chance';
 
@@ -8,12 +6,15 @@ import { CreateBatchDto } from './dto/create-batch.dto';
 import { UpdateBatchDto } from './dto/update-batch.dto';
 import { Batch } from './entities/batch.entity';
 
+import { UnitOfWorkService } from '../shared/unit-of-work/unit-of-work.service';
+
 @Injectable()
 export class BatchesService {
-  constructor(
-    @InjectRepository(Batch)
-    private batchRepository: Repository<Batch>,
-  ) {}
+  constructor(private unitOfWork: UnitOfWorkService) {}
+
+  get batchRepository() {
+    return this.unitOfWork.getRepository(Batch);
+  }
 
   async create(createBatchDto: CreateBatchDto): Promise<Batch> {
     const now = new Date();

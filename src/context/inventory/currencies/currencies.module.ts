@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CurrenciesService } from './currencies.service';
 import { CurrenciesController } from './currencies.controller';
-import { Currency } from './entities/currency.entity';
+
+import { UnitOfWorkModule } from '../shared/unit-of-work/unit-of-work.module';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Currency])],
-    controllers: [CurrenciesController],
-    providers: [CurrenciesService],
+  imports: [UnitOfWorkModule],
+  controllers: [CurrenciesController],
+  providers: [CurrenciesService],
 })
 export class CurrenciesModule {}
