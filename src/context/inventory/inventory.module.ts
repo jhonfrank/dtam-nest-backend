@@ -3,6 +3,8 @@ import { RouterModule } from '@nestjs/core';
 
 import { CONTEXT_ENUM } from 'src/context/shared/enums/context.enum';
 
+import { UnitOfWorkModule } from './shared/unit-of-work/unit-of-work.module';
+
 import { UnitsModule } from './units/units.module';
 import { CurrenciesModule } from './currencies/currencies.module';
 import { CategoriesModule } from './categories/categories.module';
@@ -25,6 +27,7 @@ const inventoryModuleList = [
 
 @Module({
   imports: [
+    UnitOfWorkModule,
     ...inventoryModuleList,
     RouterModule.register(
       inventoryModuleList.map((module) => ({
@@ -35,5 +38,6 @@ const inventoryModuleList = [
   ],
   controllers: [],
   providers: [],
+  exports: [UnitOfWorkModule],
 })
 export class InventoryModule {}
