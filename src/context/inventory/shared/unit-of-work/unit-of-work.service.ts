@@ -4,16 +4,12 @@ import {
   EntityManager,
   EntitySchema,
   ObjectType,
-  QueryRunner,
   Repository,
 } from 'typeorm';
 
 @Injectable({ scope: Scope.REQUEST })
 export class UnitOfWorkService {
-  private queryRunner: QueryRunner;
   private entityManager: EntityManager;
-  private transactionStarted = false;
-  private transactionCommitted = false;
 
   constructor(private dataSource: DataSource) {}
 
@@ -27,28 +23,22 @@ export class UnitOfWorkService {
     return this.entityManager.getRepository(target);
   }
 
-  async startTransaction(): Promise<any> {
-    this.queryRunner = this.dataSource.createQueryRunner();
-    this.entityManager = this.queryRunner.manager;
-    await this.queryRunner.startTransaction();
-    this.transactionStarted = true;
-  }
+  async transaction<T>(work: () => T): Promise<T> {
+    const queryRunner = this.dataSource.createQueryRunner();
+    this.entityManager = queryRunner.manager;
 
-  async commitTransaction(): Promise<any> {
-    await this.queryRunner.commitTransaction();
-    this.transactionCommitted = true;
-  }
+    await queryRunner.startTransaction();
 
-  async rollbackTransaction(): Promise<any> {
-    if (this.transactionStarted && !this.transactionCommitted) {
-      await this.queryRunner.rollbackTransaction();
+    try {
+      const result = await work();
+      await queryRunner.commitTransaction();
+      return result;
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      throw error;
+    } finally {
+      await queryRunner.release();
+      this.entityManager = null;
     }
-  }
-
-  async release(): Promise<any> {
-    await this.queryRunner.release();
-    this.entityManager = null;
-    this.transactionStarted = false;
-    this.transactionCommitted = false;
   }
 }
