@@ -1,24 +1,19 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { getTypeOrmConfig } from './config/typeorm.config';
 
 import { InventoryModule } from './context/inventory/inventory.module';
+import { validateEnviroment } from './config/validate-enviroment';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
-    TypeOrmModule.forRoot({
-      type: process.env.DB_TYPE as any,
-      host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT),
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: !!process.env.DB_SYNC,
-      namingStrategy: new SnakeNamingStrategy(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: [`.env.${process.env.NODE_ENV}`],
+      validate: validateEnviroment,
     }),
+    TypeOrmModule.forRoot(getTypeOrmConfig()),
     InventoryModule,
   ],
   controllers: [],

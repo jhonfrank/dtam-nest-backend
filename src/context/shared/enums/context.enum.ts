@@ -1,4 +1,4 @@
-export enum CONTEXT_ENUM {
+export enum CONTEXT {
   INVENTORY = 'inventory',
   SECURITY = 'secutity',
   SALES = 'sales',

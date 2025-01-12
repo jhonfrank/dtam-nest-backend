@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { RouterModule } from '@nestjs/core';
 
-import { CONTEXT_ENUM } from 'src/context/shared/enums/context.enum';
+import { CONTEXT } from 'src/context/shared/enums/context.enum';
 
 import { UnitOfWorkModule } from './shared/unit-of-work/unit-of-work.module';
 
@@ -31,7 +31,7 @@ const inventoryModuleList = [
     ...inventoryModuleList,
     RouterModule.register(
       inventoryModuleList.map((module) => ({
-        path: CONTEXT_ENUM.INVENTORY,
+        path: CONTEXT.INVENTORY,
         module: module,
       })),
     ),
