@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { getTypeOrmConfig } from './config/typeorm.config';
 
-import { InventoryModule } from './context/inventory/inventory.module';
+import { getTypeOrmConfig } from './config/typeorm.config';
 import { validateEnviroment } from './config/validate-enviroment';
+import { InventoryModule } from './context/inventory/inventory.module';
 
 @Module({
   imports: [

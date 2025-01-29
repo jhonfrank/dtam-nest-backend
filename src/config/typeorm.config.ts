@@ -3,12 +3,12 @@ import * as path from 'path';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
-import { NODE_ENV } from 'src/context/shared/enums/node-env.enum';
+import { NodeEnv } from 'src/context/shared/enums/node-env.enum';
 
 import * as packageJson from '../../package.json';
 
 export function getTypeOrmConfig(): TypeOrmModuleOptions {
-  return {
+  const baseConfig = {
     type: process.env.DB_TYPE as any,
     host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT),
@@ -16,17 +16,28 @@ export function getTypeOrmConfig(): TypeOrmModuleOptions {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     entities: [path.join(__dirname, '/../**/*.entity{.ts,.js}')],
-    synchronize:
-      process.env.NODE_ENV === NODE_ENV.DEVELOPMENT && !!process.env.DB_SYNC,
     namingStrategy: new SnakeNamingStrategy(),
-    logging: process.env.NODE_ENV === NODE_ENV.DEVELOPMENT,
     extra: {
       application_name: packageJson.name,
     },
-    //dropSchema: true,
-    ssl:
-      process.env.NODE_ENV === NODE_ENV.PRODUCTION
-        ? { rejectUnauthorized: false }
-        : false,
+  };
+
+  const configs = {
+    [NodeEnv.DEVELOPMENT]: {
+      ...baseConfig,
+      synchronize: !!process.env.DB_SYNC,
+      logging: true,
+      ssl: false,
+    },
+    [NodeEnv.PRODUCTION]: {
+      ...baseConfig,
+      synchronize: false,
+      logging: false,
+      ssl: { rejectUnauthorized: false },
+    },
+  };
+
+  return {
+    ...configs[process.env.NODE_ENV as NodeEnv],
   };
 }
