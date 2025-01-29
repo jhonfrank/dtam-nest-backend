@@ -24,11 +24,14 @@ export class UnitOfWorkService {
   }
 
   async transaction<T>(work: () => T): Promise<T> {
+    if (this.entityManager) {
+      throw new Error('Nested transactions cannot be created');
+    }
+
     const queryRunner = this.dataSource.createQueryRunner();
     this.entityManager = queryRunner.manager;
 
     await queryRunner.startTransaction();
-
     try {
       const result = await work();
       await queryRunner.commitTransaction();
@@ -38,7 +41,7 @@ export class UnitOfWorkService {
       throw error;
     } finally {
       await queryRunner.release();
-      this.entityManager = null;
+      this.entityManager = undefined;
     }
   }
 }
