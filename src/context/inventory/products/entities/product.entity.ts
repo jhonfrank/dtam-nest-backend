@@ -1,3 +1,4 @@
+import Decimal from 'decimal.js';
 import {
   Entity,
   PrimaryColumn,
@@ -6,14 +7,14 @@ import {
   ManyToOne,
   OneToMany,
 } from 'typeorm';
-import Decimal from 'decimal.js';
 
 import { DecimalTransformer } from 'src/context/shared/transformers/decimal.transformer';
 
-import { Unit } from '../../units/entities/unit.entity';
-import { Category } from '../../categories/entities/category.entity';
-import { Brand } from '../../brands/entities/brand.entity';
+import { ProductSku } from './product-sku.entity';
 import { Batch } from '../../batches/entities/batch.entity';
+import { Brand } from '../../brands/entities/brand.entity';
+import { Category } from '../../categories/entities/category.entity';
+import { Unit } from '../../units/entities/unit.entity';
 
 @Entity()
 export class Product {
@@ -33,12 +34,6 @@ export class Product {
     transformer: new DecimalTransformer(),
   })
   quantity: Decimal;
-
-  @Column({ type: 'char', length: 14, unique: true })
-  sku: string;
-
-  @Column({ type: 'int' })
-  skuCorrelative: number;
 
   @Column({ type: 'boolean' })
   isActive: boolean;
@@ -79,40 +74,6 @@ export class Product {
   @OneToMany(() => Batch, (batch) => batch.product)
   batches: Batch[];
 
-  static encodeSku(
-    categoryCode: string,
-    year: number,
-    skuCorrelative: number,
-    packagingCorrelative: number,
-    variantCorrelative: number,
-  ): string {
-    return (
-      categoryCode +
-      year.toString().padStart(4, '0') +
-      skuCorrelative.toString().padStart(4, '0') +
-      packagingCorrelative.toString().padStart(2, '0') +
-      variantCorrelative.toString().padStart(2, '0')
-    );
-  }
-
-  static decodeSku(sku: string): {
-    categoryCode: string;
-    year: number;
-    skuCorrelative: number;
-    packagingCorrelative: number;
-    variantCorrelative: number;
-  } {
-    const categoryCode = sku.slice(0, 2);
-    const year = parseInt(sku.slice(2, 6));
-    const skuCorrelative = parseInt(sku.slice(6, 10));
-    const packagingCorrelative = parseInt(sku.slice(10, 12));
-    const variantCorrelative = parseInt(sku.slice(12, 14));
-    return {
-      categoryCode,
-      year,
-      skuCorrelative,
-      packagingCorrelative,
-      variantCorrelative,
-    };
-  }
+  @OneToMany(() => ProductSku, (productSku) => productSku.product)
+  productSkus: ProductSku[];
 }
