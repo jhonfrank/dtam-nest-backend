@@ -5,7 +5,6 @@ import { UnitOfWorkService } from '../../shared/unit-of-work/unit-of-work.servic
 import { CreateAttributeValueDto } from '../dto/create-attribute-value.dto';
 import { UpdateAttributeValueDto } from '../dto/update-attribute-value.dto';
 import { AttributeValue } from '../entities/attribute-value.entity';
-import { Attribute } from '../entities/attribute.entity';
 
 @Injectable()
 export class AttributeValuesService {
@@ -15,22 +14,10 @@ export class AttributeValuesService {
     return this.unitOfWork.getRepository(AttributeValue);
   }
 
-  get attributeRepository() {
-    return this.unitOfWork.getRepository(Attribute);
-  }
-
   async create(
     attributeId: string,
     createAttributeValueDto: CreateAttributeValueDto,
   ): Promise<AttributeValue> {
-    const attribute = await this.attributeRepository.findOneBy({
-      id: attributeId,
-    });
-
-    if (!attribute) {
-      throw new NotFoundException(`Attribute with ID ${attributeId} not found`);
-    }
-
     const attributeValue = this.attributeValueRepository.create({
       id: uuidv4(),
       ...createAttributeValueDto,
@@ -45,27 +32,11 @@ export class AttributeValuesService {
   }
 
   async findAll(attributeId: string): Promise<AttributeValue[]> {
-    const attribute = await this.attributeRepository.findOneBy({
-      id: attributeId,
-    });
-
-    if (!attribute) {
-      throw new NotFoundException(`Attribute with ID ${attributeId} not found`);
-    }
-
     return await this.attributeValueRepository.findBy({ attributeId });
   }
 
   async findOne(attributeId: string, id: string): Promise<AttributeValue> {
-    const attribute = await this.attributeRepository.findOneBy({
-      id: attributeId,
-    });
-
-    if (!attribute) {
-      throw new NotFoundException(`Attribute with ID ${attributeId} not found`);
-    }
-
-    return await this.attributeValueRepository.findOneBy({ id });
+    return await this.attributeValueRepository.findOneBy({ attributeId, id });
   }
 
   async update(
@@ -73,15 +44,8 @@ export class AttributeValuesService {
     id: string,
     updateAttributeValueDto: UpdateAttributeValueDto,
   ): Promise<AttributeValue> {
-    const attribute = await this.attributeRepository.findOneBy({
-      id: attributeId,
-    });
-
-    if (!attribute) {
-      throw new NotFoundException(`Attribute with ID ${attributeId} not found`);
-    }
-
     const attributeValue = await this.attributeValueRepository.findOneBy({
+      attributeId,
       id,
     });
 
@@ -91,24 +55,16 @@ export class AttributeValuesService {
 
     this.attributeValueRepository.merge(attributeValue, {
       ...updateAttributeValueDto,
-      attributeId,
       updatedAt: new Date(),
       updatedBy: NIL_UUID,
     });
 
-    return await this.attributeValueRepository.save(attribute);
+    return await this.attributeValueRepository.save(attributeValue);
   }
 
   async remove(attributeId: string, id: string): Promise<void> {
-    const attribute = await this.attributeRepository.findOneBy({
-      id: attributeId,
-    });
-
-    if (!attribute) {
-      throw new NotFoundException(`Attribute with ID ${attributeId} not found`);
-    }
-
     const attributeValue = await this.attributeValueRepository.findOneBy({
+      attributeId,
       id,
     });
 
