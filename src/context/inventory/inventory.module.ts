@@ -3,6 +3,7 @@ import { RouterModule } from '@nestjs/core';
 
 import { Context } from 'src/context/shared/enums/context.enum';
 
+import { AttributesModule } from './attributes/attributes.module';
 import { BatchStatesModule } from './batch-states/batch-states.module';
 import { BatchesModule } from './batches/batches.module';
 import { BrandsModule } from './brands/brands.module';
@@ -21,6 +22,7 @@ const inventoryModuleList = [
   BatchesModule,
   BatchStatesModule,
   WarehousesModule,
+  AttributesModule,
 ];
 
 @Module({
