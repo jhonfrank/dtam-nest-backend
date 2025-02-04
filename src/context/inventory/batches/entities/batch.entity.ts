@@ -1,3 +1,4 @@
+import Decimal from 'decimal.js';
 import {
   Entity,
   PrimaryColumn,
@@ -5,12 +6,11 @@ import {
   VersionColumn,
   ManyToOne,
 } from 'typeorm';
-import Decimal from 'decimal.js';
 
-import { DecimalTransformer } from 'src/context/shared/transformers/decimal.transformer';
+import { DecimalTransformer } from 'src/context/common/transformers/decimal.transformer';
 
-import { Product } from '../../products/entities/product.entity';
 import { BatchState } from '../../batch-states/entities/batch-state.entity';
+import { Product } from '../../products/entities/product.entity';
 
 const letters = [
   null,

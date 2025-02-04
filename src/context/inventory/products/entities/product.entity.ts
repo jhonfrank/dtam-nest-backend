@@ -8,7 +8,7 @@ import {
   OneToMany,
 } from 'typeorm';
 
-import { DecimalTransformer } from 'src/context/shared/transformers/decimal.transformer';
+import { DecimalTransformer } from 'src/context/common/transformers/decimal.transformer';
 
 import { ProductVariation } from './product-variation.entity';
 import { Batch } from '../../batches/entities/batch.entity';

@@ -2,8 +2,8 @@ import { Transform } from 'class-transformer';
 import { IsString, IsNotEmpty, IsBoolean, IsUUID } from 'class-validator';
 import Decimal from 'decimal.js';
 
-import { IsDecimaljs } from 'src/context/shared/validators/is-decimaljs.decorator';
-import { MaxDecimaljsPlaces } from 'src/context/shared/validators/max-decimaljs-places.decorator';
+import { IsDecimaljs } from 'src/context/common/validators/is-decimaljs.decorator';
+import { MaxDecimaljsPlaces } from 'src/context/common/validators/max-decimaljs-places.decorator';
 
 export class CreateProductDto {
   @IsString()

@@ -1,4 +1,4 @@
-import { NodeEnv } from 'src/context/shared/enums/node-env.enum';
+import { NodeEnv } from 'src/context/common/enums/node-env.enum';
 
 export function validateEnviroment(config: Record<string, string>) {
   const nodeEnv = config.NODE_ENV;

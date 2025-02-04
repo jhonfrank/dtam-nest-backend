@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { v4 as uuidv4, NIL as NIL_UUID } from 'uuid';
 
+import { UnitOfWorkService } from 'src/context/shared/unit-of-work/unit-of-work.service';
+
 import { CreateUnitDto } from './dto/create-unit.dto';
 import { UpdateUnitDto } from './dto/update-unit.dto';
 import { Unit } from './entities/unit.entity';
-
-import { UnitOfWorkService } from '../shared/unit-of-work/unit-of-work.service';
 
 @Injectable()
 export class UnitsService {

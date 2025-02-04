@@ -1,12 +1,9 @@
 import { Module } from '@nestjs/common';
 
-import { BrandsService } from './brands.service';
 import { BrandsController } from './brands.controller';
-
-import { UnitOfWorkModule } from '../shared/unit-of-work/unit-of-work.module';
+import { BrandsService } from './brands.service';
 
 @Module({
-  imports: [UnitOfWorkModule],
   controllers: [BrandsController],
   providers: [BrandsService],
 })

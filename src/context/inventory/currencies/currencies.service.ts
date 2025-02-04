@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { v4 as uuidv4, NIL as NIL_UUID } from 'uuid';
 
+import { UnitOfWorkService } from 'src/context/shared/unit-of-work/unit-of-work.service';
+
 import { CreateCurrencyDto } from './dto/create-currency.dto';
 import { UpdateCurrencyDto } from './dto/update-currency.dto';
 import { Currency } from './entities/currency.entity';
-
-import { UnitOfWorkService } from '../shared/unit-of-work/unit-of-work.service';
 
 @Injectable()
 export class CurrenciesService {

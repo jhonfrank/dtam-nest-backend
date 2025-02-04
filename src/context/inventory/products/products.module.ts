@@ -7,10 +7,9 @@ import { CorrelativeProductVariantSkusService } from './services/correlative-pro
 import { ProductVariationsService } from './services/product-variations.service';
 import { ProductsService } from './services/products.service';
 import { CategoriesModule } from '../categories/categories.module';
-import { UnitOfWorkModule } from '../shared/unit-of-work/unit-of-work.module';
 
 @Module({
-  imports: [UnitOfWorkModule, CategoriesModule],
+  imports: [CategoriesModule],
   controllers: [ProductsController, ProductVariationsController],
   providers: [
     ProductsService,

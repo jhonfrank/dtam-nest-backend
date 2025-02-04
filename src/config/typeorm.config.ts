@@ -3,7 +3,7 @@ import * as path from 'path';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
-import { NodeEnv } from 'src/context/shared/enums/node-env.enum';
+import { NodeEnv } from 'src/context/common/enums/node-env.enum';
 
 import * as packageJson from '../../package.json';
 

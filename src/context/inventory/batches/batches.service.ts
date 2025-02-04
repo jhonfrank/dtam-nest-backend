@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { v4 as uuidv4, NIL as NIL_UUID } from 'uuid';
 import * as Chance from 'chance';
+import { v4 as uuidv4, NIL as NIL_UUID } from 'uuid';
+
+import { UnitOfWorkService } from 'src/context/shared/unit-of-work/unit-of-work.service';
 
 import { CreateBatchDto } from './dto/create-batch.dto';
 import { UpdateBatchDto } from './dto/update-batch.dto';
 import { Batch } from './entities/batch.entity';
-
-import { UnitOfWorkService } from '../shared/unit-of-work/unit-of-work.service';
 
 @Injectable()
 export class BatchesService {

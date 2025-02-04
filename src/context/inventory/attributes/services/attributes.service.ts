@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { v4 as uuidv4, NIL as NIL_UUID } from 'uuid';
 
-import { UnitOfWorkService } from '../../shared/unit-of-work/unit-of-work.service';
+import { UnitOfWorkService } from 'src/context/shared/unit-of-work/unit-of-work.service';
+
 import { CreateAttributeDto } from '../dto/create-attribute.dto';
 import { UpdateAttributeDto } from '../dto/update-attribute.dto';
 import { Attribute } from '../entities/attribute.entity';

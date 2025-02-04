@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { RouterModule } from '@nestjs/core';
 
-import { Context } from 'src/context/shared/enums/context.enum';
+import { Context } from 'src/context/common/enums/context.enum';
 
 const purchaseModuleList = [];
 

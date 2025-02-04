@@ -5,12 +5,12 @@ import {
 } from '@nestjs/common';
 import { v4 as uuidv4, NIL as NIL_UUID } from 'uuid';
 
-import { InTransaction } from 'src/context/shared/validators/in-transaction.decorator';
+import { InTransaction } from 'src/context/common/validators/in-transaction.decorator';
+import { UnitOfWorkService } from 'src/context/shared/unit-of-work/unit-of-work.service';
 
 import { CorrelativeProductMainSkusService } from './correlative-product-main-skus.service';
 import { CorrelativeProductVariantSkusService } from './correlative-product-variant-skus.service';
 import { CategoriesService } from '../../categories/categories.service';
-import { UnitOfWorkService } from '../../shared/unit-of-work/unit-of-work.service';
 import { CreateProductMainDto } from '../dto/create-product-main.dto';
 import { CreateProductVariantDto } from '../dto/create-product-variant.dto';
 import { ProductVariationAttribute } from '../entities/product-variation-attribute.entity';

@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { v4 as uuidv4, NIL as NIL_UUID } from 'uuid';
 
-import { InTransaction } from 'src/context/shared/validators/in-transaction.decorator';
+import { InTransaction } from 'src/context/common/validators/in-transaction.decorator';
+import { UnitOfWorkService } from 'src/context/shared/unit-of-work/unit-of-work.service';
 
-import { UnitOfWorkService } from '../../shared/unit-of-work/unit-of-work.service';
 import { CorrelativeProductVariantSku } from '../entities/correlative-product-variant-sku.entity';
 
 @Injectable()

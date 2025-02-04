@@ -1,6 +1,6 @@
 export enum Context {
   INVENTORY = 'inventory',
-  SECURITY = 'secutity',
+  SECURITY = 'security',
   SALES = 'sales',
   PURCHASE = 'purchase',
 }
