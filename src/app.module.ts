@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { getTypeOrmConfig } from './config/typeorm.config';
 import { validateEnviroment } from './config/validate-enviroment';
 import { InventoryModule } from './context/inventory/inventory.module';
+import { PurchaseModule } from './context/purchase/purchase.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { InventoryModule } from './context/inventory/inventory.module';
     }),
     TypeOrmModule.forRoot(getTypeOrmConfig()),
     InventoryModule,
+    PurchaseModule,
   ],
   controllers: [],
   providers: [],
