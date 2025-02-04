@@ -1,20 +1,21 @@
 import { Module } from '@nestjs/common';
 
-import { ProductsController } from './products.controller';
-import { CorrelativeProductSkusService } from './services/correlative-product-skus.service';
+import { ProductVariationsController } from './controllers/product-variations.controller';
+import { ProductsController } from './controllers/products.controller';
+import { CorrelativeProductMainSkusService } from './services/correlative-product-main-skus.service';
 import { CorrelativeProductVariantSkusService } from './services/correlative-product-variant-skus.service';
-import { ProductSkusService } from './services/product-skus.service';
+import { ProductVariationsService } from './services/product-variations.service';
 import { ProductsService } from './services/products.service';
 import { CategoriesModule } from '../categories/categories.module';
 import { UnitOfWorkModule } from '../shared/unit-of-work/unit-of-work.module';
 
 @Module({
   imports: [UnitOfWorkModule, CategoriesModule],
-  controllers: [ProductsController],
+  controllers: [ProductsController, ProductVariationsController],
   providers: [
     ProductsService,
-    ProductSkusService,
-    CorrelativeProductSkusService,
+    ProductVariationsService,
+    CorrelativeProductMainSkusService,
     CorrelativeProductVariantSkusService,
   ],
   exports: [],

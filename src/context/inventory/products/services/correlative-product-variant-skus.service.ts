@@ -10,38 +10,36 @@ import { CorrelativeProductVariantSku } from '../entities/correlative-product-va
 export class CorrelativeProductVariantSkusService {
   constructor(private unitOfWork: UnitOfWorkService) {}
 
-  get correlativeProductSkuVariantRepository() {
+  get correlativeProductVariantSkuRepository() {
     return this.unitOfWork.getRepository(CorrelativeProductVariantSku);
   }
 
   @InTransaction()
-  async generateVariant(
-    productId: string,
-    now: Date,
-  ): Promise<CorrelativeProductVariantSku> {
-    return await this.unitOfWork.transaction(async () => {
-      const correlativeProductVariantSku =
-        await this.correlativeProductSkuVariantRepository.findOneBy({
-          productId,
-        });
-
-      if (!correlativeProductVariantSku) {
-        return this.createVariant(productId, now);
-      } else {
-        return this.incrementVariant(correlativeProductVariantSku, now);
-      }
-    });
-  }
-
-  @InTransaction()
-  private async createVariant(
+  async generate(
     productId: string,
     now: Date,
   ): Promise<CorrelativeProductVariantSku> {
     const correlativeProductVariantSku =
-      this.correlativeProductSkuVariantRepository.create({
+      await this.correlativeProductVariantSkuRepository.findOneBy({
+        productId,
+      });
+
+    if (!correlativeProductVariantSku) {
+      return this.create(productId, now);
+    } else {
+      return this.increment(correlativeProductVariantSku, now);
+    }
+  }
+
+  @InTransaction()
+  private async create(
+    productId: string,
+    now: Date,
+  ): Promise<CorrelativeProductVariantSku> {
+    const correlativeProductVariantSku =
+      this.correlativeProductVariantSkuRepository.create({
         id: uuidv4(),
-        correlativeProductVariant: 1,
+        correlative: 1,
         productId,
         createdAt: now,
         createdBy: NIL_UUID,
@@ -49,27 +47,26 @@ export class CorrelativeProductVariantSkusService {
         updatedBy: NIL_UUID,
       });
 
-    return await this.correlativeProductSkuVariantRepository.save(
+    return await this.correlativeProductVariantSkuRepository.save(
       correlativeProductVariantSku,
     );
   }
 
   @InTransaction()
-  private async incrementVariant(
+  private async increment(
     correlativeProductVariantSku: CorrelativeProductVariantSku,
     now: Date,
   ): Promise<CorrelativeProductVariantSku> {
-    this.correlativeProductSkuVariantRepository.merge(
+    this.correlativeProductVariantSkuRepository.merge(
       correlativeProductVariantSku,
       {
-        correlativeProductVariant:
-          correlativeProductVariantSku.correlativeProductVariant + 1,
+        correlative: correlativeProductVariantSku.correlative + 1,
         updatedAt: now,
         updatedBy: NIL_UUID,
       },
     );
 
-    return await this.correlativeProductSkuVariantRepository.save(
+    return await this.correlativeProductVariantSkuRepository.save(
       correlativeProductVariantSku,
     );
   }

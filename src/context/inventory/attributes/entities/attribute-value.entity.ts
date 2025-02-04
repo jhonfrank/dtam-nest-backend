@@ -4,9 +4,11 @@ import {
   Column,
   VersionColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 
 import { Attribute } from './attribute.entity';
+import { ProductVariationAttribute } from '../../products/entities/product-variation-attribute.entity';
 
 @Entity()
 export class AttributeValue {
@@ -39,4 +41,10 @@ export class AttributeValue {
 
   @ManyToOne(() => Attribute, (attribute) => attribute.attributeValues)
   attribute: Attribute;
+
+  @OneToMany(
+    () => ProductVariationAttribute,
+    (productVariationAttribute) => productVariationAttribute.attributeValue,
+  )
+  productVariationAttributes: ProductVariationAttribute[];
 }

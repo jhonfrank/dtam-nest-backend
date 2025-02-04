@@ -10,7 +10,7 @@ import {
 
 import { DecimalTransformer } from 'src/context/shared/transformers/decimal.transformer';
 
-import { ProductSku } from './product-sku.entity';
+import { ProductVariation } from './product-variation.entity';
 import { Batch } from '../../batches/entities/batch.entity';
 import { Brand } from '../../brands/entities/brand.entity';
 import { Category } from '../../categories/entities/category.entity';
@@ -74,6 +74,9 @@ export class Product {
   @OneToMany(() => Batch, (batch) => batch.product)
   batches: Batch[];
 
-  @OneToMany(() => ProductSku, (productSku) => productSku.product)
-  productSkus: ProductSku[];
+  @OneToMany(
+    () => ProductVariation,
+    (productVariation) => productVariation.product,
+  )
+  productVariations: ProductVariation[];
 }

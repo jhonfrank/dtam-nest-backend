@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { v4 as uuidv4, NIL as NIL_UUID } from 'uuid';
 
-import { ProductSkusService } from './product-skus.service';
 import { UnitOfWorkService } from '../../shared/unit-of-work/unit-of-work.service';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { UpdateProductDto } from '../dto/update-product.dto';
@@ -9,10 +8,7 @@ import { Product } from '../entities/product.entity';
 
 @Injectable()
 export class ProductsService {
-  constructor(
-    private unitOfWork: UnitOfWorkService,
-    private productSkusService: ProductSkusService,
-  ) {}
+  constructor(private unitOfWork: UnitOfWorkService) {}
 
   get productRepository() {
     return this.unitOfWork.getRepository(Product);
@@ -31,8 +27,6 @@ export class ProductsService {
       });
 
       await this.productRepository.save(product);
-
-      await this.productSkusService.createMain(product, now);
 
       return product;
     });

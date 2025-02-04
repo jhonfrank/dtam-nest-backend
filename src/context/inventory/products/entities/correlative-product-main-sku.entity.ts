@@ -2,7 +2,7 @@ import { Entity, PrimaryColumn, Column, VersionColumn, Index } from 'typeorm';
 
 @Entity()
 @Index(['year', 'categoryId'], { unique: true })
-export class CorrelativeProductSku {
+export class CorrelativeProductMainSku {
   @PrimaryColumn('uuid')
   id: string;
 
@@ -10,7 +10,7 @@ export class CorrelativeProductSku {
   year: number;
 
   @Column({ type: 'int' })
-  correlativeProduct: number;
+  correlative: number;
 
   @Column({ type: 'timestamptz' })
   createdAt: Date;

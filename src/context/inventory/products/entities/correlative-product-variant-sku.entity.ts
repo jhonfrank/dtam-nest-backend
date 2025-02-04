@@ -6,7 +6,7 @@ export class CorrelativeProductVariantSku {
   id: string;
 
   @Column({ type: 'int' })
-  correlativeProductVariant: number;
+  correlative: number;
 
   @Column({ type: 'timestamptz' })
   createdAt: Date;

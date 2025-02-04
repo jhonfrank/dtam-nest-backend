@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 
 import { AttributeValue } from './attribute-value.entity';
+import { ProductVariationAttribute } from '../../products/entities/product-variation-attribute.entity';
 
 @Entity()
 export class Attribute {
@@ -39,4 +40,10 @@ export class Attribute {
 
   @OneToMany(() => AttributeValue, (attributeValue) => attributeValue.attribute)
   attributeValues: AttributeValue[];
+
+  @OneToMany(
+    () => ProductVariationAttribute,
+    (productVariationAttribute) => productVariationAttribute.attribute,
+  )
+  productVariationAttributes: ProductVariationAttribute[];
 }
