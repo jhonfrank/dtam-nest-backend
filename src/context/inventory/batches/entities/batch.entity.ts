@@ -7,6 +7,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 
+import { Context } from 'src/context/common/enums/context.enum';
 import { DecimalTransformer } from 'src/context/common/transformers/decimal.transformer';
 
 import { BatchState } from '../../batch-states/entities/batch-state.entity';
@@ -28,7 +29,7 @@ const letters = [
   'L',
 ];
 
-@Entity()
+@Entity({ schema: Context.INVENTORY })
 export class Batch {
   @PrimaryColumn('uuid')
   id: string;

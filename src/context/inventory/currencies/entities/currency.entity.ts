@@ -1,34 +1,36 @@
 import { Entity, PrimaryColumn, Column, VersionColumn } from 'typeorm';
 
-@Entity()
+import { Context } from 'src/context/common/enums/context.enum';
+
+@Entity({ schema: Context.INVENTORY })
 export class Currency {
-    @PrimaryColumn('uuid')
-    id: string;
+  @PrimaryColumn('uuid')
+  id: string;
 
-    @Column({ type: 'varchar', length: 255 })
-    name: string;
+  @Column({ type: 'varchar', length: 255 })
+  name: string;
 
-    @Column({ type: 'varchar', length: 2000 })
-    description: string;
+  @Column({ type: 'varchar', length: 2000 })
+  description: string;
 
-    @Column({ type: 'char', length: 3, unique: true })
-    code: string;
+  @Column({ type: 'char', length: 3, unique: true })
+  code: string;
 
-    @Column({ type: 'boolean' })
-    isActive: boolean;
+  @Column({ type: 'boolean' })
+  isActive: boolean;
 
-    @Column({ type: 'timestamptz' })
-    createdAt: Date;
+  @Column({ type: 'timestamptz' })
+  createdAt: Date;
 
-    @Column({ type: 'uuid' })
-    createdBy: string;
+  @Column({ type: 'uuid' })
+  createdBy: string;
 
-    @Column({ type: 'timestamptz' })
-    updatedAt: Date;
+  @Column({ type: 'timestamptz' })
+  updatedAt: Date;
 
-    @Column({ type: 'uuid' })
-    updatedBy: string;
+  @Column({ type: 'uuid' })
+  updatedBy: string;
 
-    @VersionColumn()
-    _v: number;
+  @VersionColumn()
+  _v: number;
 }

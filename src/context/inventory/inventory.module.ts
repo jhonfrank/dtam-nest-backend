@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { RouterModule } from '@nestjs/core';
 
-import { Context } from 'src/context/common/enums/context.enum';
-
 import { AttributesModule } from './attributes/attributes.module';
 import { BatchStatesModule } from './batch-states/batch-states.module';
 import { BatchesModule } from './batches/batches.module';
@@ -12,6 +10,7 @@ import { CurrenciesModule } from './currencies/currencies.module';
 import { ProductsModule } from './products/products.module';
 import { UnitsModule } from './units/units.module';
 import { WarehousesModule } from './warehouses/warehouses.module';
+import { Context } from '../common/enums/context.enum';
 
 const inventoryModuleList = [
   UnitsModule,

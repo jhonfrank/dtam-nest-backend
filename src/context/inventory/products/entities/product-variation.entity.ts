@@ -8,6 +8,7 @@ import {
   OneToMany,
 } from 'typeorm';
 
+import { Context } from 'src/context/common/enums/context.enum';
 import { DecimalTransformer } from 'src/context/common/transformers/decimal.transformer';
 
 import { ProductVariationAttribute } from './product-variation-attribute.entity';
@@ -18,7 +19,7 @@ export enum ProductVariationType {
   VARIANT = 'variant',
 }
 
-@Entity()
+@Entity({ schema: Context.INVENTORY })
 export class ProductVariation {
   @PrimaryColumn('uuid')
   id: string;

@@ -7,10 +7,12 @@ import {
   OneToMany,
 } from 'typeorm';
 
+import { Context } from 'src/context/common/enums/context.enum';
+
 import { SupplierContact } from './supplier-contact.entity';
 import { DocumentType } from '../../document-types/entities/document-type.entity';
 
-@Entity()
+@Entity({ schema: Context.PURCHASE })
 export class Supplier {
   @PrimaryColumn('uuid')
   id: string;

@@ -1,6 +1,8 @@
 import { Entity, PrimaryColumn, Column, VersionColumn, Index } from 'typeorm';
 
-@Entity()
+import { Context } from 'src/context/common/enums/context.enum';
+
+@Entity({ schema: Context.INVENTORY })
 @Index(['year', 'categoryId'], { unique: true })
 export class CorrelativeProductMainSku {
   @PrimaryColumn('uuid')

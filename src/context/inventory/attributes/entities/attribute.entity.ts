@@ -6,10 +6,12 @@ import {
   OneToMany,
 } from 'typeorm';
 
+import { Context } from 'src/context/common/enums/context.enum';
+
 import { AttributeValue } from './attribute-value.entity';
 import { ProductVariationAttribute } from '../../products/entities/product-variation-attribute.entity';
 
-@Entity()
+@Entity({ schema: Context.INVENTORY })
 export class Attribute {
   @PrimaryColumn('uuid')
   id: string;

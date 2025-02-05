@@ -6,9 +6,11 @@ import {
   VersionColumn,
 } from 'typeorm';
 
+import { Context } from 'src/context/common/enums/context.enum';
+
 import { Supplier } from '../../suppliers/entities/supplier.entity';
 
-@Entity()
+@Entity({ schema: Context.PURCHASE })
 export class DocumentType {
   @PrimaryColumn('uuid')
   id: string;

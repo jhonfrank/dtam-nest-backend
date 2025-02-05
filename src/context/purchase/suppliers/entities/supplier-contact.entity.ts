@@ -6,9 +6,11 @@ import {
   ManyToOne,
 } from 'typeorm';
 
+import { Context } from 'src/context/common/enums/context.enum';
+
 import { Supplier } from './supplier.entity';
 
-@Entity()
+@Entity({ schema: Context.PURCHASE })
 export class SupplierContact {
   @PrimaryColumn('uuid')
   id: string;

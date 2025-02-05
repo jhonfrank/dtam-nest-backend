@@ -6,11 +6,13 @@ import {
   ManyToOne,
 } from 'typeorm';
 
+import { Context } from 'src/context/common/enums/context.enum';
+
 import { ProductVariation } from './product-variation.entity';
 import { AttributeValue } from '../../attributes/entities/attribute-value.entity';
 import { Attribute } from '../../attributes/entities/attribute.entity';
 
-@Entity()
+@Entity({ schema: Context.INVENTORY })
 export class ProductVariationAttribute {
   @PrimaryColumn('uuid')
   id: string;

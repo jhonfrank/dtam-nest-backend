@@ -6,9 +6,11 @@ import {
   OneToMany,
 } from 'typeorm';
 
+import { Context } from 'src/context/common/enums/context.enum';
+
 import { Batch } from '../../batches/entities/batch.entity';
 
-@Entity()
+@Entity({ schema: Context.INVENTORY })
 export class BatchState {
   @PrimaryColumn('uuid')
   id: string;
